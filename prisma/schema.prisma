@@ -1,0 +1,108 @@
+// StockLot ERP — data model (Foundation & Master Data plan).
+// Dev provider: SQLite. Production target: PostgreSQL (swap provider + migrate).
+// Enums are modeled as validated String columns (see src/lib/enums.ts) for SQLite/Postgres portability.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model AppUser {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String // OWNER|PARTNER|SALES|INVENTORY|ACCOUNTANT|ADMIN
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ProductStyle {
+  id             String       @id @default(cuid())
+  styleCode      String       @unique
+  styleName      String
+  genderAgeGroup String? // Mens|Ladies|Boys|Girls|Kids|Unisex
+  category       String?
+  seasonFlag     String? // Winter|Summer|All
+  grade          String? // A|B-Grade|C-Grade|Mixed
+  isBulkLot      Boolean      @default(false)
+  standardCost   Decimal      @default(0)
+  active         Boolean      @default(true)
+  aliases        StyleAlias[]
+  createdById    String?
+  updatedById    String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([styleName])
+}
+
+model StyleAlias {
+  id        String       @id @default(cuid())
+  aliasText String       @unique
+  styleId   String
+  style     ProductStyle @relation(fields: [styleId], references: [id], onDelete: Cascade)
+}
+
+model Customer {
+  id                String    @id @default(cuid())
+  name              String
+  phone             String?
+  defaultLocationId String?
+  location          Location? @relation(fields: [defaultLocationId], references: [id])
+  creditTerms       String?
+  openingDueBalance Decimal   @default(0)
+  active            Boolean   @default(true)
+  createdById       String?
+  updatedById       String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([name])
+}
+
+model Supplier {
+  id           String   @id @default(cuid())
+  name         String
+  contactPhone String?
+  address      String?
+  notes        String?
+  active       Boolean  @default(true)
+  createdById  String?
+  updatedById  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Location {
+  id           String     @id @default(cuid())
+  areaName     String
+  marketOrShop String?
+  customers    Customer[]
+  createdById  String?
+  updatedById  String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model AuditLog {
+  id       String   @id @default(cuid())
+  userId   String?
+  entity   String
+  entityId String
+  action   String // CREATE|UPDATE|DELETE
+  field    String?
+  oldValue String?
+  newValue String?
+  at       DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([at])
+}
