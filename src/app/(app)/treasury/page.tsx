@@ -46,7 +46,7 @@ export default async function TreasuryPage() {
         <h2 className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Partner capital balances</h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {partnerCards.map((p) => (
-            <div key={p.name} className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+            <div key={p.name} className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-primary">
               <div className="text-sm text-slate-500">{p.name}</div>
               <div className="text-xl font-bold tabular-nums text-slate-900 dark:text-white">{taka(p.balance)}</div>
             </div>
@@ -98,7 +98,7 @@ export default async function TreasuryPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-primary">
       <div className="text-lg font-bold tabular-nums text-slate-900 dark:text-white">{value}</div>
       <div className="text-sm text-slate-500">{label}</div>
     </div>

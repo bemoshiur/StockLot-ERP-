@@ -49,7 +49,7 @@ export default async function ChallanDetailPage({ params }: { params: Promise<{ 
             <form action={confirmDraft.bind(null, c.id)}>
               <button
                 type="submit"
-                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-600 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
               >
                 Confirm & post
               </button>
@@ -75,7 +75,7 @@ export default async function ChallanDetailPage({ params }: { params: Promise<{ 
           )}
           <Link
             href="/sales"
-            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-600 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
           >
             ← All sales
           </Link>
@@ -180,7 +180,7 @@ export default async function ChallanDetailPage({ params }: { params: Promise<{ 
       )}
 
       {c.status === 'DRAFT' && (
-        <p className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-500 dark:bg-slate-900 dark:text-slate-400">
+        <p className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-500 dark:bg-primary dark:text-slate-400">
           Draft — not yet posted to dues or reports.
         </p>
       )}
@@ -205,7 +205,7 @@ export default async function ChallanDetailPage({ params }: { params: Promise<{ 
 
 function Stat({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-primary">
       <div className={`text-lg font-bold tabular-nums ${highlight ? 'text-red-600' : 'text-slate-900 dark:text-white'}`}>{value}</div>
       <div className="text-sm text-slate-500">{label}</div>
     </div>

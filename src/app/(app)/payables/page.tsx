@@ -125,7 +125,7 @@ export default async function PayablesPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-primary">
       <div className="text-lg font-bold tabular-nums text-slate-900 dark:text-white">{value}</div>
       <div className="text-sm text-slate-500">{label}</div>
     </div>

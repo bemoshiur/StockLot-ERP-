@@ -46,7 +46,7 @@ export default async function InventoryPage({ searchParams }: { searchParams: Pr
             Net stock
           </Link>
           {writable && (
-            <Link href="/inventory/new" className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
+            <Link href="/inventory/new" className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-600 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
               New receipt
             </Link>
           )}

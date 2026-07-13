@@ -85,7 +85,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
             href={`/reports?month=${m}`}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium ${
               m === month
-                ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
+                ? 'bg-primary text-white dark:bg-white dark:text-slate-900'
                 : 'border border-slate-300 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'
             }`}
           >
@@ -158,7 +158,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
 function Stat({ label, value, tone }: { label: string; value: string; tone?: 'green' | 'red' }) {
   const color = tone === 'green' ? 'text-green-700 dark:text-green-400' : tone === 'red' ? 'text-red-600' : 'text-slate-900 dark:text-white'
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-primary">
       <div className={`text-lg font-bold tabular-nums ${color}`}>{value}</div>
       <div className="text-sm text-slate-500">{label}</div>
     </div>

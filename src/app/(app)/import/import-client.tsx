@@ -26,7 +26,7 @@ export function ImportClient() {
                 type="file"
                 accept=".csv,.xlsx,.xls"
                 required
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 file:mr-3 file:rounded-md file:border-0 file:bg-slate-900 file:px-3 file:py-1 file:text-sm file:font-medium file:text-white dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:file:bg-white dark:file:text-slate-900"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 file:mr-3 file:rounded-md file:border-0 file:bg-primary file:px-3 file:py-1 file:text-sm file:font-medium file:text-white dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:file:bg-white dark:file:text-slate-900"
               />
             </Field>
           </div>
@@ -38,7 +38,7 @@ export function ImportClient() {
           <button
             type="submit"
             disabled={pending}
-            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 disabled:opacity-60 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-600 disabled:opacity-60 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
           >
             {pending ? 'Importing…' : 'Import'}
           </button>

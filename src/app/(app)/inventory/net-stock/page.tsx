@@ -106,7 +106,7 @@ export default async function NetStockPage() {
 
 function Stat({ label, value, warn }: { label: string; value: string; warn?: boolean }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-primary">
       <div className={`text-2xl font-bold tabular-nums ${warn ? 'text-red-600' : 'text-slate-900 dark:text-white'}`}>{value}</div>
       <div className="text-sm text-slate-500">{label}</div>
     </div>
