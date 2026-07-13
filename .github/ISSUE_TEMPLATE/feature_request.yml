@@ -1,0 +1,55 @@
+name: Feature request
+description: Suggest an idea or improvement for StockLot ERP.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve **StockLot ERP**.
+
+        Please search [existing issues](https://github.com/bemoshiur/StockLot-ERP-/issues) first — your idea may already be under discussion. If it is a broad or open-ended idea, consider starting a [Discussion](https://github.com/bemoshiur/StockLot-ERP-/discussions) instead.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem are you trying to solve? What is painful today?
+      placeholder: As a Sales Operator, I cannot filter dues by location, so I can't chase overdue customers in one market at a time...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the feature or change you would like to see.
+      placeholder: Add a location filter to the dues (accounts receivable) list, alongside the existing aging buckets.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Affected module
+      description: Which part of the ERP would this touch?
+      options:
+        - Sales
+        - Inventory
+        - Payables
+        - Finance
+        - Reports
+        - Masters
+        - Auth/Users
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any workarounds you use today, or other approaches you weighed.
+      placeholder: Currently I export the dues to Excel and filter there, but it goes stale immediately.
+    validations:
+      required: false

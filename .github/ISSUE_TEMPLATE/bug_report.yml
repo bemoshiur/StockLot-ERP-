@@ -1,0 +1,85 @@
+name: Bug report
+description: Report a defect in StockLot ERP so we can fix it.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report for **StockLot ERP**.
+
+        Before you start, please:
+        - Search [existing issues](https://github.com/bemoshiur/StockLot-ERP-/issues) to avoid duplicates.
+        - Try to reproduce on the [live demo](https://stock-lot-erp.vercel.app) if you can.
+
+        The more detail you provide, the faster we can help. All money figures are in BDT (৳).
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the bug and its impact.
+      placeholder: When I record a payment receipt against a sales challan, the due amount does not update...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Exact steps so we can see the bug ourselves.
+      placeholder: |
+        1. Sign in as an Accountant
+        2. Go to Sales → Challans → open a DISPATCHED challan
+        3. Add a payment receipt for ৳5,000
+        4. See the due still shows the full amount
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen instead?
+      placeholder: The due should decrease by ৳5,000 and the status should move to PARTIALLY_PAID.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Affected module
+      description: Which part of the ERP does this affect?
+      options:
+        - Sales
+        - Inventory
+        - Payables
+        - Finance
+        - Reports
+        - Masters
+        - Auth/Users
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: Release tag, or the short commit SHA the deployment is built from (visible in the footer / About).
+      placeholder: v1.0.0 or 7ffa4c0
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Where did you hit this? Include browser, device, OS, and whether it was the live demo or a self-hosted instance.
+      placeholder: |
+        - Deployment: live demo (Vercel) / self-hosted (Docker)
+        - Browser: Chrome 130
+        - Device / OS: Android phone / iPhone / Windows desktop
+        - Role signed in as: SALES
+    validations:
+      required: true
