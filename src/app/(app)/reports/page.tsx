@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { db } from '@/lib/db'
 import { requireCan } from '@/lib/guards'
 import { challanTotals } from '@/lib/sales'
-import { aggregateStock } from '@/lib/inventory'
+import { computeNetStockAgg, activeChallanFilter } from '@/lib/queries'
 import { monthlyPnL, expensesTotal, expensesByCategory } from '@/lib/finance'
 import { taka } from '@/lib/format'
 import { PageHeader, Card, EmptyState } from '@/components/ui'
@@ -34,12 +34,12 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
     )
   }
 
-  const [challans, expenses, deposits, received, sold, styles] = await Promise.all([
-    db.salesChallan.findMany({ where: { periodMonth: month }, include: { lines: true, payments: true } }),
+  const [challans, expenses, deposits, netStockAgg, styles] = await Promise.all([
+    // Only active challans count toward sales/P&L (excludes DRAFT and VOID).
+    db.salesChallan.findMany({ where: { periodMonth: month, ...activeChallanFilter }, include: { lines: true, payments: true } }),
     db.expense.findMany({ where: { periodMonth: month }, include: { category: true } }),
     db.treasuryDeposit.findMany({ where: { periodMonth: month } }),
-    db.receiptLine.groupBy({ by: ['styleId'], _sum: { quantity: true } }),
-    db.saleLine.groupBy({ by: ['styleId'], _sum: { quantity: true } }),
+    computeNetStockAgg(),
     db.productStyle.count({ where: { active: true } }),
   ])
 
@@ -68,12 +68,8 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
   const otherIncome = deposits.reduce((a, d) => a + Number(d.otherIncome), 0)
   const pnl = monthlyPnL({ grossProfit: totals.grossProfit, totalExpense, otherIncome })
 
-  // Net stock (all-time position).
-  const agg = aggregateStock(
-    received.map((r) => ({ styleId: r.styleId, quantity: r._sum.quantity ?? 0 })),
-    sold.map((s) => ({ styleId: s.styleId, quantity: s._sum.quantity ?? 0 })),
-  )
-  const netStock = [...agg.values()].reduce((a, v) => a + v.closing, 0)
+  // Net stock (all-time position; excludes void/draft, includes returns).
+  const netStock = [...netStockAgg.values()].reduce((a, v) => a + v.closing, 0)
 
   const fmtMonth = (m: string) => new Date(m + '-01').toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
 

@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from 'react'
 import Link from 'next/link'
-import { Field, TextInput, Select, FormError, Card, type FormState } from '@/components/ui'
+import { Field, TextInput, Select, Checkbox, FormError, Card, type FormState } from '@/components/ui'
 import { createSale } from './actions'
 
 type StyleOpt = { id: string; styleCode: string; styleName: string; standardCost: number }
@@ -131,6 +131,7 @@ export function SaleForm({
       </Card>
 
       <FormError error={state?.error} />
+      <Checkbox name="asDraft" label="Save as draft (don't post to the books yet)" />
       <div className="flex gap-2">
         <button type="submit" disabled={pending} className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-60 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
           {pending ? 'Saving…' : 'Create sale'}

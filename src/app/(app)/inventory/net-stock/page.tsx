@@ -2,20 +2,12 @@ import Link from 'next/link'
 import { db } from '@/lib/db'
 import { requireCan } from '@/lib/guards'
 import { PageHeader, Card, EmptyState } from '@/components/ui'
-import { aggregateStock } from '@/lib/inventory'
+import { computeNetStockAgg } from '@/lib/queries'
 
 export default async function NetStockPage() {
   await requireCan('inventory.read')
 
-  const [received, sold] = await Promise.all([
-    db.receiptLine.groupBy({ by: ['styleId'], _sum: { quantity: true } }),
-    db.saleLine.groupBy({ by: ['styleId'], _sum: { quantity: true } }),
-  ])
-
-  const agg = aggregateStock(
-    received.map((r) => ({ styleId: r.styleId, quantity: r._sum.quantity ?? 0 })),
-    sold.map((s) => ({ styleId: s.styleId, quantity: s._sum.quantity ?? 0 })),
-  )
+  const agg = await computeNetStockAgg()
 
   // Include every active style PLUS any style that has movement even if inactive,
   // so the total and negative-stock alerts never silently drop stock.

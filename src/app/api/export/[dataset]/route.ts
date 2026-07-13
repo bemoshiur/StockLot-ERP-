@@ -4,7 +4,7 @@ import { can, type Action } from '@/lib/rbac'
 import { toCsv, type CsvColumn } from '@/lib/csv'
 import { challanTotals, roundMoney } from '@/lib/sales'
 import { agingBuckets } from '@/lib/aging'
-import { aggregateStock } from '@/lib/inventory'
+import { computeNetStockAgg, activeChallanFilter } from '@/lib/queries'
 
 type Row = Record<string, string | number>
 type Dataset = { perm: Action; columns: CsvColumn[]; rows: () => Promise<Row[]> }
@@ -63,7 +63,7 @@ const DATASETS: Record<string, Dataset> = {
       const asOf = new Date()
       const customers = await db.customer.findMany({
         where: { active: true },
-        include: { challans: { include: { lines: true, payments: true } } },
+        include: { challans: { where: activeChallanFilter, include: { lines: true, payments: true } } },
       })
       return customers
         .map((cust) => {
@@ -103,14 +103,7 @@ const DATASETS: Record<string, Dataset> = {
       { key: 'onHand', label: 'On hand' },
     ],
     rows: async () => {
-      const [received, sold] = await Promise.all([
-        db.receiptLine.groupBy({ by: ['styleId'], _sum: { quantity: true } }),
-        db.saleLine.groupBy({ by: ['styleId'], _sum: { quantity: true } }),
-      ])
-      const agg = aggregateStock(
-        received.map((r) => ({ styleId: r.styleId, quantity: r._sum.quantity ?? 0 })),
-        sold.map((s) => ({ styleId: s.styleId, quantity: s._sum.quantity ?? 0 })),
-      )
+      const agg = await computeNetStockAgg()
       const movedIds = [...agg.keys()]
       const styles = await db.productStyle.findMany({
         where: { OR: [{ active: true }, { id: { in: movedIds } }] },
@@ -118,7 +111,7 @@ const DATASETS: Record<string, Dataset> = {
       })
       return styles
         .map((s) => {
-          const a = agg.get(s.id) ?? { received: 0, sold: 0, closing: 0, negative: false }
+          const a = agg.get(s.id) ?? { received: 0, sold: 0, returned: 0, closing: 0, negative: false }
           return { styleCode: s.styleCode, styleName: s.styleName, received: a.received, sold: a.sold, onHand: a.closing }
         })
         .sort((x, y) => y.onHand - x.onHand)

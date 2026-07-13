@@ -9,6 +9,7 @@ export const STATUS_STYLES: Record<string, string> = {
   DISPATCHED: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300',
   PARTIALLY_PAID: 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300',
   PAID: 'bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-300',
+  VOID: 'bg-red-100 text-red-700 line-through dark:bg-red-950 dark:text-red-300',
 }
 
 export const STATUS_LABELS: Record<string, string> = {
@@ -16,4 +17,5 @@ export const STATUS_LABELS: Record<string, string> = {
   DISPATCHED: 'Dispatched',
   PARTIALLY_PAID: 'Part-paid',
   PAID: 'Paid',
+  VOID: 'Void',
 }

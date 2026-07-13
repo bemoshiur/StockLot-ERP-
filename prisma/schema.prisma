@@ -49,6 +49,7 @@ model ProductStyle {
   aliases        StyleAlias[]
   saleLines      SaleLine[]
   receiptLines   ReceiptLine[]
+  returnLines    ReturnLine[]
   createdById    String?
   updatedById    String?
   createdAt      DateTime     @default(now())
@@ -135,10 +136,11 @@ model SalesChallan {
   customer    Customer         @relation(fields: [customerId], references: [id])
   locationId  String?
   location    Location?        @relation(fields: [locationId], references: [id])
-  status      String // DRAFT|DISPATCHED|PARTIALLY_PAID|PAID
+  status      String // DRAFT|DISPATCHED|PARTIALLY_PAID|PAID|VOID
   remarks     String?
   lines       SaleLine[]
   payments    PaymentReceipt[]
+  returns     SalesReturn[]
   createdById String?
   updatedById String?
   createdAt   DateTime         @default(now())
@@ -185,13 +187,42 @@ model ReceivableEntry {
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id])
   challanId  String?
-  entryType  String // INVOICE|PAYMENT|WAIVER|OPENING
-  amount     Decimal // signed: invoice +, payment/waiver -
+  entryType  String // INVOICE|PAYMENT|WAIVER|OPENING|RETURN|VOID
+  amount     Decimal // signed: invoice +, payment/waiver/return/void -
   entryDate  DateTime
   createdAt  DateTime @default(now())
 
   @@index([customerId])
   @@index([challanId])
+}
+
+model SalesReturn {
+  id          String       @id @default(cuid())
+  challanId   String
+  challan     SalesChallan @relation(fields: [challanId], references: [id], onDelete: Cascade)
+  returnDate  DateTime
+  periodMonth String
+  reason      String?
+  lines       ReturnLine[]
+  createdById String?
+  createdAt   DateTime     @default(now())
+
+  @@index([challanId])
+  @@index([periodMonth])
+}
+
+model ReturnLine {
+  id         String       @id @default(cuid())
+  returnId   String
+  return     SalesReturn  @relation(fields: [returnId], references: [id], onDelete: Cascade)
+  styleId    String
+  style      ProductStyle @relation(fields: [styleId], references: [id])
+  quantity   Int
+  unitPrice  Decimal
+  lineAmount Decimal
+
+  @@index([returnId])
+  @@index([styleId])
 }
 
 model PurchaseReceipt {

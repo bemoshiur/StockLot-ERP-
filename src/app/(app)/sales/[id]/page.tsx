@@ -7,6 +7,9 @@ import { challanTotals } from '@/lib/sales'
 import { taka, shortDate, STATUS_STYLES, STATUS_LABELS } from '@/lib/format'
 import Link from 'next/link'
 import { PaymentForm } from '../payment-form'
+import { confirmDraft, voidChallan } from '../actions'
+
+const RETURNABLE_STATUSES = ['DISPATCHED', 'PARTIALLY_PAID', 'PAID']
 
 export default async function ChallanDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireCan('sales.read')
@@ -18,6 +21,7 @@ export default async function ChallanDetailPage({ params }: { params: Promise<{ 
       location: true,
       lines: { include: { style: true } },
       payments: { orderBy: { receiptDate: 'asc' } },
+      returns: { include: { lines: { include: { style: true } } }, orderBy: { returnDate: 'asc' } },
     },
   })
   if (!c) notFound()
@@ -41,6 +45,34 @@ export default async function ChallanDetailPage({ params }: { params: Promise<{ 
           >
             Print / Invoice
           </Link>
+          {c.status === 'DRAFT' && (
+            <form action={confirmDraft.bind(null, c.id)}>
+              <button
+                type="submit"
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+              >
+                Confirm & post
+              </button>
+            </form>
+          )}
+          {RETURNABLE_STATUSES.includes(c.status) && (
+            <Link
+              href={`/sales/${c.id}/return`}
+              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              Return / credit note
+            </Link>
+          )}
+          {RETURNABLE_STATUSES.includes(c.status) && c.payments.length === 0 && (
+            <form action={voidChallan.bind(null, c.id)}>
+              <button
+                type="submit"
+                className="rounded-lg border border-red-300 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
+              >
+                Void
+              </button>
+            </form>
+          )}
           <Link
             href="/sales"
             className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
@@ -121,7 +153,45 @@ export default async function ChallanDetailPage({ params }: { params: Promise<{ 
         </Card>
       )}
 
-      {canPay && t.dueTotal > 0 && (
+      {c.returns.length > 0 && (
+        <Card>
+          <div className="p-5">
+            <h2 className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Returns</h2>
+            <div className="space-y-4">
+              {c.returns.map((r) => (
+                <div key={r.id}>
+                  <div className="mb-1 flex items-center justify-between text-sm">
+                    <span className="font-medium text-slate-900 dark:text-slate-100">{shortDate(r.returnDate)}</span>
+                    {r.reason && <span className="text-slate-500">{r.reason}</span>}
+                  </div>
+                  <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+                    {r.lines.map((l) => (
+                      <li key={l.id} className="flex items-center justify-between py-1.5 text-sm">
+                        <span className="text-slate-600 dark:text-slate-400">{l.style.styleName} × {l.quantity}</span>
+                        <span className="tabular-nums text-slate-900 dark:text-slate-100">{taka(Number(l.lineAmount))}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {c.status === 'DRAFT' && (
+        <p className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-500 dark:bg-slate-900 dark:text-slate-400">
+          Draft — not yet posted to dues or reports.
+        </p>
+      )}
+
+      {c.status === 'VOID' && (
+        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+          This challan is void — excluded from stock, dues and reports.
+        </p>
+      )}
+
+      {canPay && c.status !== 'DRAFT' && c.status !== 'VOID' && t.dueTotal > 0 && (
         <div>
           <h2 className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Record payment</h2>
           <Card>

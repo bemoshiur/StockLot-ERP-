@@ -4,6 +4,7 @@ import { requireCan } from '@/lib/guards'
 import { PageHeader, Card, EmptyState } from '@/components/ui'
 import { challanTotals } from '@/lib/sales'
 import { agingBuckets } from '@/lib/aging'
+import { activeChallanFilter } from '@/lib/queries'
 import { taka } from '@/lib/format'
 
 export default async function DuesPage() {
@@ -12,7 +13,7 @@ export default async function DuesPage() {
 
   const customers = await db.customer.findMany({
     where: { active: true },
-    include: { challans: { include: { lines: true, payments: true } } },
+    include: { challans: { where: activeChallanFilter, include: { lines: true, payments: true } } },
   })
 
   const rows = customers

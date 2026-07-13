@@ -7,7 +7,8 @@ import { requireCan } from '@/lib/guards'
 import { writeAudit } from '@/lib/audit'
 import { saleSchema } from '@/lib/validators/sale'
 import { paymentSchema } from '@/lib/validators/payment'
-import { lineAmount, lineGrossProfit, challanTotals, challanStatus } from '@/lib/sales'
+import { returnSchema } from '@/lib/validators/return'
+import { lineAmount, lineGrossProfit, challanTotals, challanStatus, roundMoney } from '@/lib/sales'
 import type { FormState } from '@/components/ui'
 
 export async function createSale(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -55,7 +56,9 @@ export async function createSale(_prev: FormState, formData: FormData): Promise<
   )
   const saleDate = new Date(data.saleDate)
   const periodMonth = data.saleDate.slice(0, 7)
-  const status = challanStatus({ invoiceTotal: totals.invoiceTotal, collectedTotal: 0, discountTotal: 0 })
+  // A draft is parked without posting to the receivable ledger or the books.
+  const asDraft = formData.get('asDraft') === 'on'
+  const status = asDraft ? 'DRAFT' : challanStatus({ invoiceTotal: totals.invoiceTotal, collectedTotal: 0, discountTotal: 0 })
 
   const challan = await db.$transaction(async (tx) => {
     const c = await tx.salesChallan.create({
@@ -72,15 +75,17 @@ export async function createSale(_prev: FormState, formData: FormData): Promise<
         lines: { create: lineRows },
       },
     })
-    await tx.receivableEntry.create({
-      data: {
-        customerId: data.customerId,
-        challanId: c.id,
-        entryType: 'INVOICE',
-        amount: totals.invoiceTotal,
-        entryDate: saleDate,
-      },
-    })
+    if (!asDraft) {
+      await tx.receivableEntry.create({
+        data: {
+          customerId: data.customerId,
+          challanId: c.id,
+          entryType: 'INVOICE',
+          amount: totals.invoiceTotal,
+          entryDate: saleDate,
+        },
+      })
+    }
     return c
   })
 
@@ -163,4 +168,131 @@ export async function recordPayment(challanId: string, _prev: FormState, formDat
   revalidatePath('/sales')
   revalidatePath('/dues')
   return { error: undefined }
+}
+
+function revalidateSales(challanId: string) {
+  revalidatePath('/sales')
+  revalidatePath(`/sales/${challanId}`)
+  revalidatePath('/dues')
+  revalidatePath('/reports')
+  revalidatePath('/inventory/net-stock')
+}
+
+/** Void/cancel a challan: reverses its receivable ledger and drops it from the books.
+ *  Only allowed when it has no payments (reverse payments via a return first). */
+export async function voidChallan(challanId: string): Promise<void> {
+  const user = await requireCan('sales.write')
+  const challan = await db.salesChallan.findUnique({ where: { id: challanId }, include: { payments: true } })
+  if (!challan || challan.status === 'VOID' || challan.status === 'DRAFT') return
+  if (challan.payments.length > 0) return // guarded in the UI; no-op if reached
+
+  await db.$transaction(async (tx) => {
+    const entries = await tx.receivableEntry.findMany({ where: { challanId } })
+    const net = entries.reduce((a, e) => a + Number(e.amount), 0)
+    if (net !== 0)
+      await tx.receivableEntry.create({
+        data: { customerId: challan.customerId, challanId, entryType: 'VOID', amount: -net, entryDate: new Date() },
+      })
+    await tx.salesChallan.update({ where: { id: challanId }, data: { status: 'VOID', updatedById: user.id } })
+  })
+  await writeAudit({
+    userId: user.id,
+    entity: 'SalesChallan',
+    entityId: challanId,
+    action: 'UPDATE',
+    changes: [{ field: 'status', oldValue: challan.status, newValue: 'VOID' }],
+  })
+  revalidateSales(challanId)
+}
+
+/** Confirm a DRAFT challan: posts the invoice to the receivable ledger and dispatches it. */
+export async function confirmDraft(challanId: string): Promise<void> {
+  const user = await requireCan('sales.write')
+  const challan = await db.salesChallan.findUnique({ where: { id: challanId }, include: { lines: true } })
+  if (!challan || challan.status !== 'DRAFT') return
+  const totals = challanTotals(
+    challan.lines.map((l) => ({ quantity: l.quantity, unitPrice: Number(l.unitPrice), unitCost: Number(l.unitCostSnapshot) })),
+    [],
+  )
+  await db.$transaction(async (tx) => {
+    await tx.receivableEntry.create({
+      data: { customerId: challan.customerId, challanId, entryType: 'INVOICE', amount: totals.invoiceTotal, entryDate: challan.saleDate },
+    })
+    await tx.salesChallan.update({ where: { id: challanId }, data: { status: 'DISPATCHED', updatedById: user.id } })
+  })
+  await writeAudit({
+    userId: user.id,
+    entity: 'SalesChallan',
+    entityId: challanId,
+    action: 'UPDATE',
+    changes: [{ field: 'status', oldValue: 'DRAFT', newValue: 'DISPATCHED' }],
+  })
+  revalidateSales(challanId)
+}
+
+/** Record a sales return / credit note against a challan: adds stock back and
+ *  posts a negative RETURN entry to the customer's receivable ledger. */
+export async function createReturn(challanId: string, _prev: FormState, formData: FormData): Promise<FormState> {
+  const user = await requireCan('sales.write')
+
+  let raw: unknown
+  try {
+    raw = JSON.parse(String(formData.get('linesJson') ?? '[]'))
+  } catch {
+    return { error: 'Could not read the return lines' }
+  }
+  const parsed = returnSchema.safeParse({ reason: formData.get('reason'), returnDate: formData.get('returnDate'), lines: raw })
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Invalid input' }
+  const data = parsed.data
+  const returnLines = data.lines.filter((l) => l.quantity > 0)
+  if (returnLines.length === 0) return { error: 'Enter a return quantity for at least one line' }
+
+  const challan = await db.salesChallan.findUnique({ where: { id: challanId }, include: { lines: true, returns: { include: { lines: true } } } })
+  if (!challan) return { error: 'Challan not found' }
+  if (!['DISPATCHED', 'PARTIALLY_PAID', 'PAID'].includes(challan.status))
+    return { error: 'Only a dispatched/paid challan can be returned' }
+
+  // A return line must reference a style on the challan and not exceed (sold − already returned).
+  const soldByStyle = new Map<string, { quantity: number; unitPrice: number }>()
+  for (const l of challan.lines) {
+    const cur = soldByStyle.get(l.styleId) ?? { quantity: 0, unitPrice: Number(l.unitPrice) }
+    cur.quantity += l.quantity
+    soldByStyle.set(l.styleId, cur)
+  }
+  const returnedByStyle = new Map<string, number>()
+  for (const r of challan.returns) for (const rl of r.lines) returnedByStyle.set(rl.styleId, (returnedByStyle.get(rl.styleId) ?? 0) + rl.quantity)
+
+  let returnAmount = 0
+  const createLines: { styleId: string; quantity: number; unitPrice: number; lineAmount: number }[] = []
+  for (const rl of returnLines) {
+    const sold = soldByStyle.get(rl.styleId)
+    if (!sold) return { error: 'A return line does not match any style on this challan' }
+    const remaining = sold.quantity - (returnedByStyle.get(rl.styleId) ?? 0)
+    if (rl.quantity > remaining) return { error: `Cannot return more than the ${remaining} remaining for a style` }
+    const amt = roundMoney(rl.quantity * sold.unitPrice)
+    returnAmount += amt
+    createLines.push({ styleId: rl.styleId, quantity: rl.quantity, unitPrice: sold.unitPrice, lineAmount: amt })
+  }
+  returnAmount = roundMoney(returnAmount)
+  const returnDate = new Date(data.returnDate)
+
+  const created = await db.$transaction(async (tx) => {
+    const ret = await tx.salesReturn.create({
+      data: {
+        challanId,
+        returnDate,
+        periodMonth: data.returnDate.slice(0, 7),
+        reason: data.reason ?? null,
+        createdById: user.id,
+        lines: { create: createLines },
+      },
+    })
+    await tx.receivableEntry.create({
+      data: { customerId: challan.customerId, challanId, entryType: 'RETURN', amount: -returnAmount, entryDate: returnDate },
+    })
+    return ret
+  })
+  await writeAudit({ userId: user.id, entity: 'SalesReturn', entityId: created.id, action: 'CREATE' })
+  revalidateSales(challanId)
+  redirect(`/documents/credit-note/${created.id}`)
 }

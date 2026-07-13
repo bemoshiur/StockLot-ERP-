@@ -2,20 +2,20 @@ import Link from 'next/link'
 import { db } from '@/lib/db'
 import { requireUser } from '@/lib/guards'
 import { can } from '@/lib/rbac'
+import { computeNetStockAgg, activeChallanFilter } from '@/lib/queries'
 import { ROLE_LABELS } from '@/lib/enums'
 import { NAV_ITEMS } from '@/lib/nav'
 import { FadeIn, Stagger, StaggerItem } from '@/components/motion'
 
 export default async function DashboardPage() {
   const user = await requireUser()
-  const [styles, customers, receivedAgg, soldAgg, salesCount] = await Promise.all([
+  const [styles, customers, netStockAgg, salesCount] = await Promise.all([
     db.productStyle.count({ where: { active: true } }),
     db.customer.count({ where: { active: true } }),
-    db.receiptLine.aggregate({ _sum: { quantity: true } }),
-    db.saleLine.aggregate({ _sum: { quantity: true } }),
-    db.salesChallan.count(),
+    computeNetStockAgg(),
+    db.salesChallan.count({ where: activeChallanFilter }),
   ])
-  const netStock = (receivedAgg._sum.quantity ?? 0) - (soldAgg._sum.quantity ?? 0)
+  const netStock = [...netStockAgg.values()].reduce((a, v) => a + v.closing, 0)
 
   const stats = [
     { label: 'Sales challans', value: salesCount.toLocaleString('en-US') },
