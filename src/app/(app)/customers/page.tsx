@@ -14,7 +14,18 @@ export default async function CustomersPage() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <PageHeader title="Customers" action={writable ? { href: '/customers/new', label: 'New customer' } : undefined} />
+      <PageHeader
+        title="Customers"
+        action={writable ? { href: '/customers/new', label: 'New customer' } : undefined}
+        secondary={
+          <a
+            href="/api/export/customers"
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            Export CSV
+          </a>
+        }
+      />
       {customers.length === 0 ? (
         <EmptyState message="No customers yet. Add your first customer to start tracking sales and dues." />
       ) : (

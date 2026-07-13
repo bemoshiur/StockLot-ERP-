@@ -14,7 +14,18 @@ export default async function StylesPage() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <PageHeader title="Styles" action={writable ? { href: '/styles/new', label: 'New style' } : undefined} />
+      <PageHeader
+        title="Styles"
+        action={writable ? { href: '/styles/new', label: 'New style' } : undefined}
+        secondary={
+          <a
+            href="/api/export/styles"
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            Export CSV
+          </a>
+        }
+      />
       {styles.length === 0 ? (
         <EmptyState message="No styles yet. Add your first garment style to start tracking stock and profit." />
       ) : (

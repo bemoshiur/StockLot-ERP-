@@ -5,20 +5,27 @@ export type FormState = { error?: string } | undefined
 export function PageHeader({
   title,
   action,
+  secondary,
 }: {
   title: string
   action?: { href: string; label: string }
+  secondary?: React.ReactNode
 }) {
   return (
     <div className="mb-5 flex items-center justify-between">
       <h1 className="text-xl font-bold text-slate-900 dark:text-white">{title}</h1>
-      {action && (
-        <Link
-          href={action.href}
-          className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
-        >
-          {action.label}
-        </Link>
+      {(secondary || action) && (
+        <div className="flex items-center gap-2">
+          {secondary}
+          {action && (
+            <Link
+              href={action.href}
+              className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+            >
+              {action.label}
+            </Link>
+          )}
+        </div>
       )}
     </div>
   )

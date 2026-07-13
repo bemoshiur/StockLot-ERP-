@@ -17,7 +17,18 @@ export default async function SalesPage() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <PageHeader title="Sales" action={writable ? { href: '/sales/new', label: 'New sale' } : undefined} />
+      <PageHeader
+        title="Sales"
+        action={writable ? { href: '/sales/new', label: 'New sale' } : undefined}
+        secondary={
+          <a
+            href="/api/export/sales"
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            Export CSV
+          </a>
+        }
+      />
       {challans.length === 0 ? (
         <EmptyState message="No sales yet. Create your first challan to record a sale, compute profit, and track dues." />
       ) : (

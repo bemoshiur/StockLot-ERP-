@@ -2,9 +2,10 @@ import { notFound } from 'next/navigation'
 import { db } from '@/lib/db'
 import { requireCan } from '@/lib/guards'
 import { can } from '@/lib/rbac'
-import { PageHeader, Card } from '@/components/ui'
+import { Card } from '@/components/ui'
 import { challanTotals } from '@/lib/sales'
 import { taka, shortDate, STATUS_STYLES, STATUS_LABELS } from '@/lib/format'
+import Link from 'next/link'
 import { PaymentForm } from '../payment-form'
 
 export default async function ChallanDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -30,7 +31,24 @@ export default async function ChallanDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <PageHeader title={`Sale ${c.challanNo ? `#${c.challanNo}` : ''}`} action={{ href: '/sales', label: '← All sales' }} />
+      <div className="mb-5 flex items-center justify-between">
+        <h1 className="text-xl font-bold text-slate-900 dark:text-white">{`Sale ${c.challanNo ? `#${c.challanNo}` : ''}`}</h1>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/documents/challan/${c.id}`}
+            target="_blank"
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+          >
+            Print / Invoice
+          </Link>
+          <Link
+            href="/sales"
+            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+          >
+            ← All sales
+          </Link>
+        </div>
+      </div>
 
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-3 p-5">

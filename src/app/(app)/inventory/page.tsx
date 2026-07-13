@@ -19,6 +19,9 @@ export default async function InventoryPage() {
       <div className="mb-5 flex items-center justify-between">
         <h1 className="text-xl font-bold text-slate-900 dark:text-white">Inventory — Receipts</h1>
         <div className="flex gap-2">
+          <a href="/api/export/receipts" className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
+            Export CSV
+          </a>
           <Link href="/inventory/net-stock" className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
             Net stock
           </Link>

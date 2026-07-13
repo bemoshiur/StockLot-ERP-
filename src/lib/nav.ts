@@ -20,4 +20,5 @@ export const NAV_ITEMS: NavItem[] = [
   { href: '/suppliers', label: 'Suppliers', action: 'suppliers.write' },
   { href: '/locations', label: 'Locations', action: 'locations.write' },
   { href: '/users', label: 'Users', action: 'users.manage' },
+  { href: '/import', label: 'Import', action: 'masters.read' },
 ]
