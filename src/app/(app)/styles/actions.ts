@@ -19,6 +19,7 @@ function parse(formData: FormData) {
     grade: formData.get('grade'),
     isBulkLot: formData.get('isBulkLot') === 'on',
     standardCost: formData.get('standardCost'),
+    reorderLevel: formData.get('reorderLevel'),
   })
 }
 

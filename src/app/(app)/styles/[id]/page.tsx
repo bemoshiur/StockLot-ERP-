@@ -32,6 +32,7 @@ export default async function EditStylePage({ params }: { params: Promise<{ id: 
           grade: style.grade,
           isBulkLot: style.isBulkLot,
           standardCost: style.standardCost.toString(),
+          reorderLevel: style.reorderLevel,
         }}
       />
 

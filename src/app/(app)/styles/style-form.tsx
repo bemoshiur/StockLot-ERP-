@@ -15,6 +15,7 @@ type StyleValues = {
   grade?: string | null
   isBulkLot?: boolean
   standardCost?: string | number
+  reorderLevel?: string | number
 }
 
 export function StyleForm({
@@ -75,6 +76,16 @@ export function StyleForm({
               min="0"
               defaultValue={values.standardCost != null ? String(values.standardCost) : '0'}
               required
+            />
+          </Field>
+          <Field label="Reorder level (pieces)" name="reorderLevel" hint="Low-stock alert triggers when on-hand falls to or below this. 0 = off.">
+            <TextInput
+              id="reorderLevel"
+              name="reorderLevel"
+              type="number"
+              step="1"
+              min="0"
+              defaultValue={values.reorderLevel != null ? String(values.reorderLevel) : '0'}
             />
           </Field>
           <div className="flex items-end">

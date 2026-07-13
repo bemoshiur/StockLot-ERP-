@@ -13,6 +13,7 @@ export const styleSchema = z.object({
   grade: optionalEnum(GRADES),
   isBulkLot: z.coerce.boolean().default(false),
   standardCost: z.coerce.number().min(0, 'Cost cannot be negative'),
+  reorderLevel: z.coerce.number().int('Reorder level must be a whole number').min(0, 'Reorder level cannot be negative').default(0),
 })
 
 export type StyleInput = z.infer<typeof styleSchema>

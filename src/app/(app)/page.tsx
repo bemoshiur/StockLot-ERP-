@@ -14,8 +14,9 @@ import { Card } from '@/components/ui'
 export default async function DashboardPage() {
   const user = await requireUser()
   const canFinance = can(user.role, 'reports.read')
+  const canInventory = can(user.role, 'inventory.read')
 
-  const [salesCount, customers, netStockAgg, monthsRaw, recent] = await Promise.all([
+  const [salesCount, customers, netStockAgg, monthsRaw, recent, reorderStyles] = await Promise.all([
     db.salesChallan.count({ where: activeChallanFilter }),
     db.customer.count({ where: { active: true } }),
     computeNetStockAgg(),
@@ -26,8 +27,17 @@ export default async function DashboardPage() {
       take: 6,
       include: { customer: true, lines: true, payments: true },
     }),
+    canInventory
+      ? db.productStyle.findMany({ where: { active: true, reorderLevel: { gt: 0 } }, select: { id: true, styleName: true, reorderLevel: true } })
+      : Promise.resolve([]),
   ])
   const netStock = [...netStockAgg.values()].reduce((a, v) => a + v.closing, 0)
+
+  // Styles at or below their reorder level (excludes negative-stock, which is a data error, not a restock signal).
+  const lowStock = reorderStyles
+    .map((s) => ({ ...s, onHand: netStockAgg.get(s.id)?.closing ?? 0 }))
+    .filter((s) => s.onHand >= 0 && s.onHand <= s.reorderLevel)
+    .sort((a, b) => a.onHand - b.onHand)
   const latestMonth = monthsRaw.map((m) => m.periodMonth).sort().reverse()[0]
 
   const monthChallans = latestMonth
@@ -83,6 +93,25 @@ export default async function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {/* Low-stock alert */}
+      {lowStock.length > 0 && (
+        <Link
+          href="/inventory/net-stock"
+          className="flex items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm transition hover:border-amber-300"
+        >
+          <div className="min-w-0">
+            <span className="font-semibold text-amber-800">
+              {lowStock.length} style{lowStock.length > 1 ? 's' : ''} low on stock
+            </span>
+            <span className="ml-2 truncate text-amber-700">
+              {lowStock.slice(0, 4).map((s) => `${s.styleName} (${s.onHand})`).join(', ')}
+              {lowStock.length > 4 ? ` +${lowStock.length - 4} more` : ''}
+            </span>
+          </div>
+          <ArrowRight className="h-4 w-4 shrink-0 text-amber-500" />
+        </Link>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Chart */}

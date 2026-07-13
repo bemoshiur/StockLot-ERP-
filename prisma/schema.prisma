@@ -45,11 +45,14 @@ model ProductStyle {
   grade          String? // A|B-Grade|C-Grade|Mixed
   isBulkLot      Boolean      @default(false)
   standardCost   Decimal      @default(0)
+  reorderLevel   Int          @default(0)
   active         Boolean      @default(true)
   aliases        StyleAlias[]
   saleLines      SaleLine[]
   receiptLines   ReceiptLine[]
   returnLines    ReturnLine[]
+  adjustments    StockAdjustment[]
+  purchaseReturnLines PurchaseReturnLine[]
   createdById    String?
   updatedById    String?
   createdAt      DateTime     @default(now())
@@ -94,6 +97,7 @@ model Supplier {
   openingPayableBalance Decimal           @default(0)
   receipts              PurchaseReceipt[]
   payments              SupplierPayment[]
+  purchaseReturns       PurchaseReturn[]
   createdById           String?
   updatedById  String?
   createdAt    DateTime @default(now())
@@ -251,6 +255,52 @@ model Period {
   closedById  String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model StockAdjustment {
+  id             String       @id @default(cuid())
+  styleId        String
+  style          ProductStyle @relation(fields: [styleId], references: [id])
+  adjustmentDate DateTime
+  periodMonth    String
+  quantity       Int // signed: positive adds stock, negative removes
+  reason         String // COUNT|DAMAGE|LOSS|FOUND|OTHER
+  note           String?
+  createdById    String?
+  createdAt      DateTime     @default(now())
+
+  @@index([styleId])
+  @@index([periodMonth])
+}
+
+model PurchaseReturn {
+  id           String               @id @default(cuid())
+  supplierId   String
+  supplier     Supplier             @relation(fields: [supplierId], references: [id])
+  returnDate   DateTime
+  periodMonth  String
+  reason       String?
+  creditAmount Decimal              @default(0) // reduces the payable to the supplier
+  lines        PurchaseReturnLine[]
+  createdById  String?
+  createdAt    DateTime             @default(now())
+
+  @@index([supplierId])
+  @@index([periodMonth])
+}
+
+model PurchaseReturnLine {
+  id               String         @id @default(cuid())
+  purchaseReturnId String
+  purchaseReturn   PurchaseReturn @relation(fields: [purchaseReturnId], references: [id], onDelete: Cascade)
+  styleId          String
+  style            ProductStyle   @relation(fields: [styleId], references: [id])
+  quantity         Int
+  unitCost         Decimal        @default(0)
+  lineAmount       Decimal        @default(0)
+
+  @@index([purchaseReturnId])
+  @@index([styleId])
 }
 
 model PurchaseReceipt {

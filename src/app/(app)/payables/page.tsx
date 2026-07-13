@@ -17,6 +17,7 @@ export default async function PayablesPage() {
       include: {
         receipts: { select: { billAmount: true } },
         payments: { select: { amount: true } },
+        purchaseReturns: { select: { creditAmount: true } },
       },
     }),
     db.supplierPayment.findMany({
@@ -30,7 +31,9 @@ export default async function PayablesPage() {
     .map((s) => {
       const billed =
         s.receipts.reduce((a, r) => a + Number(r.billAmount), 0) + Number(s.openingPayableBalance)
-      const paid = s.payments.reduce((a, p) => a + Number(p.amount), 0)
+      const credits = s.purchaseReturns.reduce((a, r) => a + Number(r.creditAmount), 0)
+      // A return credit lowers what we owe, exactly like a payment.
+      const paid = s.payments.reduce((a, p) => a + Number(p.amount), 0) + credits
       return { id: s.id, name: s.name, billed, paid, outstanding: billed - paid }
     })
     .sort((a, b) => b.outstanding - a.outstanding)
