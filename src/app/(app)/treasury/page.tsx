@@ -12,10 +12,13 @@ export default async function TreasuryPage() {
   const canWrite = can(user.role, 'treasury.write')
   const today = new Date().toISOString().slice(0, 10)
 
-  const [partners, movements, deposits] = await Promise.all([
+  const [partners, movements, deposits, investedAgg, depositAgg] = await Promise.all([
     db.partner.findMany({ include: { capitalMovements: true }, orderBy: { name: 'asc' } }),
     db.capitalMovement.findMany({ include: { partner: true }, orderBy: { date: 'desc' }, take: 100 }),
     db.treasuryDeposit.findMany({ include: { payer: true }, orderBy: { depositDate: 'desc' }, take: 100 }),
+    // Totals over ALL rows, independent of the take:100 activity lists below.
+    db.capitalMovement.aggregate({ _sum: { amount: true }, where: { amount: { gt: 0 } } }),
+    db.treasuryDeposit.aggregate({ _sum: { amount: true, otherIncome: true } }),
   ])
 
   const partnerCards = partners.map((p) => ({
@@ -23,9 +26,9 @@ export default async function TreasuryPage() {
     balance: partnerBalance(Number(p.openingCapitalBalance), p.capitalMovements.map((m) => ({ amount: Number(m.amount) }))),
   }))
 
-  const totalInvested = movements.filter((m) => Number(m.amount) > 0).reduce((a, m) => a + Number(m.amount), 0)
-  const totalDeposited = deposits.reduce((a, d) => a + Number(d.amount), 0)
-  const totalOtherIncome = deposits.reduce((a, d) => a + Number(d.otherIncome), 0)
+  const totalInvested = Number(investedAgg._sum.amount ?? 0)
+  const totalDeposited = Number(depositAgg._sum.amount ?? 0)
+  const totalOtherIncome = Number(depositAgg._sum.otherIncome ?? 0)
   const partnerOptions = partners.map((p) => ({ id: p.id, name: p.name }))
 
   return (

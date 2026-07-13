@@ -8,13 +8,17 @@ import { PageHeader, Card, EmptyState } from '@/components/ui'
 export default async function ExpensesPage() {
   const user = await requireCan('expenses.read')
   const writable = can(user.role, 'expenses.write')
-  const expenses = await db.expense.findMany({
-    orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
-    take: 300,
-    include: { category: true },
-  })
+  const [expenses, operatingAgg] = await Promise.all([
+    db.expense.findMany({
+      orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
+      take: 300,
+      include: { category: true },
+    }),
+    // Total over ALL non-advance expenses, independent of the paginated list above.
+    db.expense.aggregate({ _sum: { amount: true }, where: { isAdvance: false } }),
+  ])
 
-  const operatingTotal = expenses.reduce((sum, e) => (e.isAdvance ? sum : sum + Number(e.amount)), 0)
+  const operatingTotal = Number(operatingAgg._sum.amount ?? 0)
 
   return (
     <div className="mx-auto max-w-5xl">

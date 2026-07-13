@@ -53,7 +53,10 @@ export async function updateSupplier(_prev: FormState, formData: FormData): Prom
       entity: 'Supplier',
       entityId: id,
       action: 'UPDATE',
-      changes: diff(before, parsed.data),
+      changes: diff(
+        { name: before.name, contactPhone: before.contactPhone, address: before.address, notes: before.notes },
+        parsed.data,
+      ),
     })
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002')

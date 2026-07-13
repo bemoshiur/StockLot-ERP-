@@ -5,7 +5,7 @@ import { can } from '@/lib/rbac'
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui'
 
 export default async function CustomersPage() {
-  const user = await requireCan('masters.read')
+  const user = await requireCan('customers.write')
   const writable = can(user.role, 'customers.write')
   const customers = await db.customer.findMany({
     orderBy: [{ active: 'desc' }, { name: 'asc' }],

@@ -29,15 +29,17 @@ export function Field({
   name,
   children,
   hint,
+  htmlFor,
 }: {
   label: string
   name: string
   children: React.ReactNode
   hint?: string
+  htmlFor?: string
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
+      <label htmlFor={htmlFor ?? name} className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
         {label}
       </label>
       {children}

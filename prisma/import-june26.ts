@@ -36,6 +36,7 @@ const data = JSON.parse(readFileSync(new URL('../reference/june26-import.json', 
 
 const normCust = (s: string) => s.trim().replace(/\s+/g, ' ').split('/')[0].trim() || 'Unknown'
 const normStyle = (s: string) => s.trim().replace(/\s+/g, ' ')
+const styleKey = (s: string) => normStyle(s).toLowerCase() // case-insensitive dedup key
 
 async function main() {
   console.log('Clearing prior transactional data…')
@@ -77,17 +78,20 @@ async function main() {
     usedCodes.add(code)
     return code
   }
+  // styleId is keyed by the case-folded name so "Mens tshirt" and "Mens Tshirt" resolve to ONE style.
   const allStyleNames = new Set([...data.sales.map((s) => normStyle(s.styleRaw)), ...data.receipts.map((r) => normStyle(r.styleRaw))])
   for (const name of allStyleNames) {
+    const key = styleKey(name)
+    if (styleId.has(key)) continue
     const existing = await db.productStyle.findFirst({ where: { styleName: name } })
     if (existing) {
-      styleId.set(name, existing.id)
+      styleId.set(key, existing.id)
       continue
     }
     const created = await db.productStyle.create({
       data: { styleCode: codeFor(name), styleName: name, standardCost: IMPORT_COST, isBulkLot: /mixed|pre stock/i.test(name) },
     })
-    styleId.set(name, created.id)
+    styleId.set(key, created.id)
   }
 
   // ---- Sales → challans ----
@@ -102,7 +106,7 @@ async function main() {
     const lines = rows.map((r) => {
       const unitPrice = r.qty ? r.amount / r.qty : 0 // so qty*unitPrice === amount (reconciles invoice)
       return {
-        styleId: styleId.get(normStyle(r.styleRaw))!,
+        styleId: styleId.get(styleKey(r.styleRaw))!,
         quantity: r.qty,
         unitPrice,
         unitCostSnapshot: IMPORT_COST,
@@ -155,7 +159,7 @@ async function main() {
         periodMonth: '2026-06',
         isOpeningStock: true,
         remarks: 'Opening / carried-forward stock (June’26)',
-        lines: { create: openingLines.map((r) => ({ styleId: styleId.get(normStyle(r.styleRaw))!, quantity: r.qty })) },
+        lines: { create: openingLines.map((r) => ({ styleId: styleId.get(styleKey(r.styleRaw))!, quantity: r.qty })) },
       },
     })
   }
@@ -171,7 +175,7 @@ async function main() {
         receiptDate: new Date(rows[0].date),
         periodMonth: rows[0].date.slice(0, 7),
         remarks: 'Imported from June’26',
-        lines: { create: rows.map((r) => ({ styleId: styleId.get(normStyle(r.styleRaw))!, quantity: r.qty })) },
+        lines: { create: rows.map((r) => ({ styleId: styleId.get(styleKey(r.styleRaw))!, quantity: r.qty })) },
       },
     })
   }

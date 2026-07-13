@@ -5,7 +5,7 @@ import { can } from '@/lib/rbac'
 import { PageHeader, Card, EmptyState } from '@/components/ui'
 
 export default async function LocationsPage() {
-  const user = await requireCan('masters.read')
+  const user = await requireCan('locations.write')
   const writable = can(user.role, 'locations.write')
   const locations = await db.location.findMany({
     orderBy: { areaName: 'asc' },

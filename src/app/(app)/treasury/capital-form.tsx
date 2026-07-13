@@ -25,8 +25,8 @@ export function CapitalForm({ partners, today }: { partners: { id: string; name:
             ))}
           </Select>
         </Field>
-        <Field label="Amount (BDT)" name="amount">
-          <TextInput id="amount" name="amount" type="number" min="0.01" step="0.01" required />
+        <Field label="Amount (BDT)" name="amount" htmlFor="cap-amount">
+          <TextInput id="cap-amount" name="amount" type="number" min="0.01" step="0.01" required />
         </Field>
         <Field label="Date" name="date">
           <TextInput id="date" name="date" type="date" defaultValue={today} required />

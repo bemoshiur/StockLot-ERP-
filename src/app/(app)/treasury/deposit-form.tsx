@@ -25,8 +25,8 @@ export function DepositForm({ partners, today }: { partners: { id: string; name:
             ))}
           </Select>
         </Field>
-        <Field label="Amount deposited to Alib (BDT)" name="amount">
-          <TextInput id="amount" name="amount" type="number" min="0" step="0.01" defaultValue="0" required />
+        <Field label="Amount deposited to Alib (BDT)" name="amount" htmlFor="dep-amount">
+          <TextInput id="dep-amount" name="amount" type="number" min="0" step="0.01" defaultValue="0" required />
         </Field>
         <Field label="Other income (BDT)" name="otherIncome" hint="Non-sale income banked with this deposit, if any.">
           <TextInput id="otherIncome" name="otherIncome" type="number" min="0" step="0.01" defaultValue="0" />

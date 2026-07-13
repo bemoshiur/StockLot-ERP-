@@ -11,12 +11,18 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
   await requireCan('reports.read')
   const sp = await searchParams
 
-  // Available months across sales + expenses.
-  const [saleMonths, expMonths] = await Promise.all([
+  // Available months across sales, expenses, and treasury (a treasury-only month must still appear).
+  const [saleMonths, expMonths, depMonths, capMonths] = await Promise.all([
     db.salesChallan.findMany({ distinct: ['periodMonth'], select: { periodMonth: true } }),
     db.expense.findMany({ distinct: ['periodMonth'], select: { periodMonth: true } }),
+    db.treasuryDeposit.findMany({ distinct: ['periodMonth'], select: { periodMonth: true } }),
+    db.capitalMovement.findMany({ distinct: ['periodMonth'], select: { periodMonth: true } }),
   ])
-  const months = [...new Set([...saleMonths, ...expMonths].map((m) => m.periodMonth))].sort().reverse()
+  const months = [
+    ...new Set([...saleMonths, ...expMonths, ...depMonths, ...capMonths].map((m) => m.periodMonth)),
+  ]
+    .sort()
+    .reverse()
   const month = sp.month && months.includes(sp.month) ? sp.month : months[0]
 
   if (!month) {

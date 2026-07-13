@@ -42,7 +42,7 @@ export async function updateLocation(_prev: FormState, formData: FormData): Prom
   const before = await db.location.findUnique({ where: { id } })
   if (!before) return { error: 'Location not found' }
   try {
-    const after = await db.location.update({
+    await db.location.update({
       where: { id },
       data: { ...parsed.data, updatedById: user.id },
     })
@@ -51,7 +51,7 @@ export async function updateLocation(_prev: FormState, formData: FormData): Prom
       entity: 'Location',
       entityId: id,
       action: 'UPDATE',
-      changes: diff(before, after),
+      changes: diff({ areaName: before.areaName, marketOrShop: before.marketOrShop }, parsed.data),
     })
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002')

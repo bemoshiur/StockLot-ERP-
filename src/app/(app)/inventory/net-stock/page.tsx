@@ -7,19 +7,23 @@ import { aggregateStock } from '@/lib/inventory'
 export default async function NetStockPage() {
   await requireCan('inventory.read')
 
-  const [received, sold, styles] = await Promise.all([
+  const [received, sold] = await Promise.all([
     db.receiptLine.groupBy({ by: ['styleId'], _sum: { quantity: true } }),
     db.saleLine.groupBy({ by: ['styleId'], _sum: { quantity: true } }),
-    db.productStyle.findMany({
-      where: { active: true },
-      select: { id: true, styleCode: true, styleName: true, isBulkLot: true },
-    }),
   ])
 
   const agg = aggregateStock(
     received.map((r) => ({ styleId: r.styleId, quantity: r._sum.quantity ?? 0 })),
     sold.map((s) => ({ styleId: s.styleId, quantity: s._sum.quantity ?? 0 })),
   )
+
+  // Include every active style PLUS any style that has movement even if inactive,
+  // so the total and negative-stock alerts never silently drop stock.
+  const movedIds = [...agg.keys()]
+  const styles = await db.productStyle.findMany({
+    where: { OR: [{ active: true }, { id: { in: movedIds } }] },
+    select: { id: true, styleCode: true, styleName: true, isBulkLot: true, active: true },
+  })
 
   const rows = styles
     .map((s) => {
@@ -70,6 +74,7 @@ export default async function NetStockPage() {
                       <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-100">
                         <Link href={`/styles/${r.id}`} className="hover:underline">{r.styleName}</Link>
                         {r.isBulkLot && <span className="ml-2 text-xs text-amber-600">bulk</span>}
+                        {!r.active && <span className="ml-2 text-xs text-slate-400">inactive</span>}
                       </td>
                       <td className="px-4 py-3 text-right tabular-nums text-slate-500">{r.received.toLocaleString('en-US')}</td>
                       <td className="px-4 py-3 text-right tabular-nums text-slate-500">{r.sold.toLocaleString('en-US')}</td>

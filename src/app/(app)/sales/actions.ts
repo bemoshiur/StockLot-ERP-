@@ -92,12 +92,6 @@ export async function createSale(_prev: FormState, formData: FormData): Promise<
 export async function recordPayment(challanId: string, _prev: FormState, formData: FormData): Promise<FormState> {
   const user = await requireCan('payments.write')
 
-  const challan = await db.salesChallan.findUnique({
-    where: { id: challanId },
-    include: { lines: true, payments: true },
-  })
-  if (!challan) return { error: 'Challan not found' }
-
   const parsed = paymentSchema.safeParse({
     amountCollected: formData.get('amountCollected'),
     discountOrWaiver: formData.get('discountOrWaiver'),
@@ -107,31 +101,34 @@ export async function recordPayment(challanId: string, _prev: FormState, formDat
   })
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Invalid input' }
   const p = parsed.data
-
-  const totals = challanTotals(
-    challan.lines.map((l) => ({
-      quantity: l.quantity,
-      unitPrice: Number(l.unitPrice),
-      unitCost: Number(l.unitCostSnapshot),
-    })),
-    challan.payments.map((pr) => ({
-      amountCollected: Number(pr.amountCollected),
-      discountOrWaiver: Number(pr.discountOrWaiver),
-    })),
-  )
-
-  if (p.amountCollected + p.discountOrWaiver > totals.dueTotal + 0.005)
-    return { error: `Amount + discount (৳${p.amountCollected + p.discountOrWaiver}) exceeds the due of ৳${totals.dueTotal}` }
   if (p.amountCollected + p.discountOrWaiver <= 0) return { error: 'Enter an amount or a discount' }
 
-  const newStatus = challanStatus({
-    invoiceTotal: totals.invoiceTotal,
-    collectedTotal: totals.collectedTotal + p.amountCollected,
-    discountTotal: totals.discountTotal + p.discountOrWaiver,
-  })
+  const challan = await db.salesChallan.findUnique({ where: { id: challanId }, include: { lines: true } })
+  if (!challan) return { error: 'Challan not found' }
+  const lineInputs = challan.lines.map((l) => ({
+    quantity: l.quantity,
+    unitPrice: Number(l.unitPrice),
+    unitCost: Number(l.unitCostSnapshot),
+  }))
   const receiptDate = new Date(p.receiptDate)
 
-  await db.$transaction(async (tx) => {
+  // The over-payment guard and all writes run in ONE transaction that re-reads
+  // payments from committed state, so a double-submit / concurrent collector
+  // cannot both pass the guard and over-collect (SQLite serializes writers).
+  const outcome = await db.$transaction(async (tx) => {
+    const payments = await tx.paymentReceipt.findMany({ where: { challanId } })
+    const totals = challanTotals(
+      lineInputs,
+      payments.map((pr) => ({ amountCollected: Number(pr.amountCollected), discountOrWaiver: Number(pr.discountOrWaiver) })),
+    )
+    if (p.amountCollected + p.discountOrWaiver > totals.dueTotal + 0.005)
+      return { error: `Amount + discount (৳${p.amountCollected + p.discountOrWaiver}) exceeds the due of ৳${totals.dueTotal}` }
+
+    const newStatus = challanStatus({
+      invoiceTotal: totals.invoiceTotal,
+      collectedTotal: totals.collectedTotal + p.amountCollected,
+      discountTotal: totals.discountTotal + p.discountOrWaiver,
+    })
     await tx.paymentReceipt.create({
       data: {
         challanId,
@@ -151,7 +148,9 @@ export async function recordPayment(challanId: string, _prev: FormState, formDat
         data: { customerId: challan.customerId, challanId, entryType: 'WAIVER', amount: -p.discountOrWaiver, entryDate: receiptDate },
       })
     await tx.salesChallan.update({ where: { id: challanId }, data: { status: newStatus, updatedById: user.id } })
+    return { ok: true as const }
   })
+  if ('error' in outcome) return { error: outcome.error }
 
   await writeAudit({
     userId: user.id,
