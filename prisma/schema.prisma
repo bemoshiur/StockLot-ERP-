@@ -12,6 +12,18 @@ datasource db {
   directUrl = env("DIRECT_URL") // non-pooled (migrations)
 }
 
+model CompanySettings {
+  id          String   @id @default("singleton")
+  name        String   @default("StockLot ERP")
+  address     String?
+  phone       String?
+  email       String?
+  tinBin      String? // TIN / BIN
+  footerNote  String?
+  updatedById String?
+  updatedAt   DateTime @updatedAt
+}
+
 model AppUser {
   id           String   @id @default(cuid())
   name         String

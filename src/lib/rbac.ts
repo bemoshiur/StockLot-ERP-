@@ -17,6 +17,8 @@ export type Action =
   | 'treasury.write'
   | 'treasury.read'
   | 'reports.read'
+  | 'settings.manage'
+  | 'audit.read'
 
 const MATRIX: Record<Action, Role[]> = {
   'users.manage': ['OWNER', 'ADMIN'],
@@ -35,6 +37,8 @@ const MATRIX: Record<Action, Role[]> = {
   'treasury.write': ['OWNER', 'ADMIN', 'PARTNER'],
   'treasury.read': ['OWNER', 'ADMIN', 'ACCOUNTANT', 'PARTNER'],
   'reports.read': ['OWNER', 'ADMIN', 'ACCOUNTANT', 'PARTNER'],
+  'settings.manage': ['OWNER', 'ADMIN'],
+  'audit.read': ['OWNER', 'ADMIN'],
 }
 
 export const can = (role: Role, action: Action): boolean => MATRIX[action].includes(role)

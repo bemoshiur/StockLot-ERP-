@@ -21,7 +21,11 @@ export const authConfig = {
       return token
     },
     session({ session, token }) {
-      if (session.user) (session.user as { role?: Role }).role = token.role as Role
+      if (session.user) {
+        const u = session.user as { id?: string; role?: Role }
+        u.role = token.role as Role
+        u.id = token.sub // NextAuth sets token.sub to the user id from authorize()
+      }
       return session
     },
   },

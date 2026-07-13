@@ -8,15 +8,18 @@ import { PrintButton } from '../../../print-button'
 export default async function ChallanDocumentPage({ params }: { params: Promise<{ id: string }> }) {
   await requireCan('sales.read')
   const { id } = await params
-  const c = await db.salesChallan.findUnique({
-    where: { id },
-    include: {
-      customer: true,
-      location: true,
-      lines: { include: { style: true } },
-      payments: { orderBy: { receiptDate: 'asc' } },
-    },
-  })
+  const [c, settings] = await Promise.all([
+    db.salesChallan.findUnique({
+      where: { id },
+      include: {
+        customer: true,
+        location: true,
+        lines: { include: { style: true } },
+        payments: { orderBy: { receiptDate: 'asc' } },
+      },
+    }),
+    db.companySettings.findUnique({ where: { id: 'singleton' } }),
+  ])
   if (!c) notFound()
 
   const t = challanTotals(
@@ -35,8 +38,17 @@ export default async function ChallanDocumentPage({ params }: { params: Promise<
         {/* Header */}
         <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-300 pb-5">
           <div>
-            <div className="text-3xl font-bold tracking-tight">StockLot ERP</div>
-            <div className="mt-1 text-sm text-slate-600">Wholesale operations</div>
+            <div className="text-3xl font-bold tracking-tight">{settings?.name ?? 'StockLot ERP'}</div>
+            {settings?.address && <div className="mt-1 text-sm text-slate-600">{settings.address}</div>}
+            {(settings?.phone || settings?.email) && (
+              <div className="text-sm text-slate-600">
+                {[settings.phone, settings.email].filter(Boolean).join(' · ')}
+              </div>
+            )}
+            {settings?.tinBin && <div className="text-sm text-slate-600">TIN / BIN: {settings.tinBin}</div>}
+            {!settings?.address && !settings?.phone && !settings?.email && (
+              <div className="mt-1 text-sm text-slate-600">Wholesale operations</div>
+            )}
           </div>
           <div className="text-right">
             <div className="text-lg font-semibold">Challan / Invoice</div>
@@ -125,7 +137,7 @@ export default async function ChallanDocumentPage({ params }: { params: Promise<
 
         {/* Footer */}
         <div className="mt-8 border-t border-slate-300 pt-4 text-center text-sm text-slate-600">
-          Thank you for your business.
+          {settings?.footerNote ?? 'Thank you for your business.'}
         </div>
       </div>
     </div>

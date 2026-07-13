@@ -21,4 +21,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: '/locations', label: 'Locations', action: 'locations.write' },
   { href: '/users', label: 'Users', action: 'users.manage' },
   { href: '/import', label: 'Import', action: 'masters.read' },
+  { href: '/settings', label: 'Settings', action: 'settings.manage' },
+  { href: '/audit', label: 'Audit log', action: 'audit.read' },
+  { href: '/profile', label: 'My profile' },
 ]
