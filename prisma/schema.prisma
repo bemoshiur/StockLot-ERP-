@@ -35,6 +35,7 @@ model ProductStyle {
   active         Boolean      @default(true)
   aliases        StyleAlias[]
   saleLines      SaleLine[]
+  receiptLines   ReceiptLine[]
   createdById    String?
   updatedById    String?
   createdAt      DateTime     @default(now())
@@ -70,12 +71,13 @@ model Customer {
 }
 
 model Supplier {
-  id           String   @id @default(cuid())
+  id           String            @id @default(cuid())
   name         String
   contactPhone String?
   address      String?
   notes        String?
-  active       Boolean  @default(true)
+  active       Boolean           @default(true)
+  receipts     PurchaseReceipt[]
   createdById  String?
   updatedById  String?
   createdAt    DateTime @default(now())
@@ -177,4 +179,36 @@ model ReceivableEntry {
 
   @@index([customerId])
   @@index([challanId])
+}
+
+model PurchaseReceipt {
+  id             String        @id @default(cuid())
+  challanNo      String? // supplier delivery note (e.g. 25589)
+  receiptDate    DateTime
+  periodMonth    String // "YYYY-MM"
+  supplierId     String?
+  supplier       Supplier?     @relation(fields: [supplierId], references: [id])
+  isOpeningStock Boolean       @default(false)
+  remarks        String?
+  lines          ReceiptLine[]
+  createdById    String?
+  updatedById    String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([periodMonth])
+  @@index([receiptDate])
+}
+
+model ReceiptLine {
+  id              String          @id @default(cuid())
+  receiptId       String
+  receipt         PurchaseReceipt @relation(fields: [receiptId], references: [id], onDelete: Cascade)
+  styleId         String
+  style           ProductStyle    @relation(fields: [styleId], references: [id])
+  quantity        Int
+  subCategoryNote String?
+
+  @@index([receiptId])
+  @@index([styleId])
 }

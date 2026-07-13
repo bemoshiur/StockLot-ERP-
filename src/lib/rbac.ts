@@ -10,6 +10,8 @@ export type Action =
   | 'sales.write'
   | 'sales.read'
   | 'payments.write'
+  | 'inventory.write'
+  | 'inventory.read'
 
 const MATRIX: Record<Action, Role[]> = {
   'users.manage': ['OWNER', 'ADMIN'],
@@ -21,6 +23,8 @@ const MATRIX: Record<Action, Role[]> = {
   'sales.write': ['OWNER', 'ADMIN', 'SALES'],
   'sales.read': ['OWNER', 'ADMIN', 'SALES', 'ACCOUNTANT', 'PARTNER'],
   'payments.write': ['OWNER', 'ADMIN', 'SALES', 'ACCOUNTANT'],
+  'inventory.write': ['OWNER', 'ADMIN', 'INVENTORY'],
+  'inventory.read': ['OWNER', 'ADMIN', 'INVENTORY', 'ACCOUNTANT', 'PARTNER'],
 }
 
 export const can = (role: Role, action: Action): boolean => MATRIX[action].includes(role)
