@@ -16,7 +16,20 @@ export default async function ReceiptDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <PageHeader title={`Receipt ${r.challanNo ? `#${r.challanNo}` : ''}`} action={{ href: '/inventory', label: '← All receipts' }} />
+      <PageHeader
+        title={`Receipt ${r.challanNo ? `#${r.challanNo}` : ''}`}
+        action={{ href: '/inventory', label: '← All receipts' }}
+        secondary={
+          <a
+            href={`/documents/receipt/${r.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+          >
+            Print GRN
+          </a>
+        }
+      />
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-3 p-5">
           <div>

@@ -6,6 +6,7 @@ import { computeNetStockAgg, activeChallanFilter } from '@/lib/queries'
 import { monthlyPnL, expensesTotal, expensesByCategory } from '@/lib/finance'
 import { taka } from '@/lib/format'
 import { PageHeader, Card, EmptyState } from '@/components/ui'
+import { ReportTabs } from '@/components/report-tabs'
 
 export default async function ReportsPage({ searchParams }: { searchParams: Promise<{ month?: string }> }) {
   await requireCan('reports.read')
@@ -76,6 +77,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <PageHeader title="Reports" />
+      <ReportTabs />
 
       {/* Month selector */}
       <div className="flex flex-wrap gap-2">
