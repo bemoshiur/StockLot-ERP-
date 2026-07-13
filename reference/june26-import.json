@@ -1,0 +1,1213 @@
+{
+ "sales": [
+  {
+   "challanNo": "198",
+   "date": "2026-06-06",
+   "customerRaw": "Raju Bhai",
+   "locationRaw": "Malibug",
+   "styleRaw": "Mixed Item",
+   "qty": 1105,
+   "unitPrice": 80.543,
+   "amount": 89000.015,
+   "paid": 89000.015,
+   "due": 0.0
+  },
+  {
+   "challanNo": "199",
+   "date": "2026-06-08",
+   "customerRaw": "Mostaque Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mens tshirt",
+   "qty": 407,
+   "unitPrice": 72.481,
+   "amount": 29499.767,
+   "paid": 29499.767,
+   "due": 0.0
+  },
+  {
+   "challanNo": "200",
+   "date": "2026-06-08",
+   "customerRaw": "Belal Hossain",
+   "locationRaw": "DEPZ Sonia Market",
+   "styleRaw": "Keeper",
+   "qty": 1772,
+   "unitPrice": 41.0,
+   "amount": 72652.0,
+   "paid": 72500.0,
+   "due": 152.0
+  },
+  {
+   "challanNo": "401",
+   "date": "2026-06-11",
+   "customerRaw": "Shafiqul Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mixed Item",
+   "qty": 76,
+   "unitPrice": 70.0,
+   "amount": 5320.0,
+   "paid": 5320.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "401",
+   "date": "2026-06-11",
+   "customerRaw": "Shafiqul Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Ladies Trouser Big size",
+   "qty": 25,
+   "unitPrice": 110.0,
+   "amount": 2750.0,
+   "paid": 2750.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "401",
+   "date": "2026-06-11",
+   "customerRaw": "Shafiqul Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mens Trouser",
+   "qty": 45,
+   "unitPrice": 130.0,
+   "amount": 5850.0,
+   "paid": 5850.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "402",
+   "date": "2026-06-11",
+   "customerRaw": "Hanif Bhai",
+   "locationRaw": "Mirpur",
+   "styleRaw": "Ladies tshirt",
+   "qty": 200,
+   "unitPrice": 60.0,
+   "amount": 12000.0,
+   "paid": 12000.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "402",
+   "date": "2026-06-11",
+   "customerRaw": "Hanif Bhai",
+   "locationRaw": "Mirpur",
+   "styleRaw": "Hoodie",
+   "qty": 60,
+   "unitPrice": 145.0,
+   "amount": 8700.0,
+   "paid": 8700.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "402",
+   "date": "2026-06-11",
+   "customerRaw": "Hanif Bhai",
+   "locationRaw": "Mirpur",
+   "styleRaw": "Swipe shirt",
+   "qty": 14,
+   "unitPrice": 110.0,
+   "amount": 1540.0,
+   "paid": 1500.0,
+   "due": 40.0
+  },
+  {
+   "challanNo": "N/A",
+   "date": "2026-06-13",
+   "customerRaw": "Shafiqul Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Ladies tshirt RIb Febrics Long sleve",
+   "qty": 115,
+   "unitPrice": 60.0,
+   "amount": 6900.0,
+   "paid": 6900.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "404",
+   "date": "2026-06-14",
+   "customerRaw": "Khokon",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Kids Plazo",
+   "qty": 196,
+   "unitPrice": 65.0,
+   "amount": 12740.0,
+   "paid": 12740.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "404",
+   "date": "2026-06-14",
+   "customerRaw": "Khokon",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Kids swipe shirt",
+   "qty": 74,
+   "unitPrice": 70.0,
+   "amount": 5180.0,
+   "paid": 5180.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "404",
+   "date": "2026-06-14",
+   "customerRaw": "Khokon",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Girls Long Pant",
+   "qty": 132,
+   "unitPrice": 80.0,
+   "amount": 10560.0,
+   "paid": 10510.0,
+   "due": 50.0
+  },
+  {
+   "challanNo": "404",
+   "date": "2026-06-14",
+   "customerRaw": "Khokon",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Girls Swipe Shirt style",
+   "qty": 177,
+   "unitPrice": 110.0,
+   "amount": 19470.0,
+   "paid": 19470.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "403",
+   "date": "2026-06-15",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Ladies tshirt",
+   "qty": 100,
+   "unitPrice": 60.0,
+   "amount": 6000.0,
+   "paid": 6000.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "403",
+   "date": "2026-06-15",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mens tshirt",
+   "qty": 30,
+   "unitPrice": 70.0,
+   "amount": 2100.0,
+   "paid": 2100.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "403",
+   "date": "2026-06-15",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Long dress & Mixed",
+   "qty": 21,
+   "unitPrice": 105.0,
+   "amount": 2205.0,
+   "paid": 2200.0,
+   "due": 5.0
+  },
+  {
+   "challanNo": "405",
+   "date": "2026-06-17",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Mens tshirt Jacamo",
+   "qty": 330,
+   "unitPrice": 69.0,
+   "amount": 22770.0,
+   "paid": 22500.0,
+   "due": 270.0
+  },
+  {
+   "challanNo": "405",
+   "date": "2026-06-17",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Long Dress",
+   "qty": 36,
+   "unitPrice": 100.0,
+   "amount": 3600.0,
+   "paid": 3600.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "405",
+   "date": "2026-06-17",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Long Dress B Type",
+   "qty": 115,
+   "unitPrice": 60.0,
+   "amount": 6900.0,
+   "paid": 6900.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "406",
+   "date": "2026-06-17",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Pant",
+   "qty": 21,
+   "unitPrice": 80.0,
+   "amount": 1680.0,
+   "paid": 1680.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "406",
+   "date": "2026-06-17",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Pant",
+   "qty": 20,
+   "unitPrice": 70.0,
+   "amount": 1400.0,
+   "paid": 1400.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "406",
+   "date": "2026-06-17",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "tshirt Ladies",
+   "qty": 56,
+   "unitPrice": 60.0,
+   "amount": 3360.0,
+   "paid": 3360.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "407",
+   "date": "2026-06-18",
+   "customerRaw": "Raju Bhai ",
+   "locationRaw": "Amatur Fashion",
+   "styleRaw": "Mens tshirt",
+   "qty": 1516,
+   "unitPrice": 94.0,
+   "amount": 142504.0,
+   "paid": 142450.0,
+   "due": 54.0
+  },
+  {
+   "challanNo": "407",
+   "date": "2026-06-18",
+   "customerRaw": "Raju Bhai ",
+   "locationRaw": "Amatur Fashion",
+   "styleRaw": "Rumper Long",
+   "qty": 265,
+   "unitPrice": 75.0,
+   "amount": 19875.0,
+   "paid": 19875.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "407",
+   "date": "2026-06-18",
+   "customerRaw": "Raju Bhai ",
+   "locationRaw": "Amatur Fashion",
+   "styleRaw": "Rumper short",
+   "qty": 92,
+   "unitPrice": 65.0,
+   "amount": 5980.0,
+   "paid": 5980.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "407",
+   "date": "2026-06-18",
+   "customerRaw": "Raju Bhai ",
+   "locationRaw": "Amatur Fashion",
+   "styleRaw": "Ladies tshirt",
+   "qty": 182,
+   "unitPrice": 60.0,
+   "amount": 10920.0,
+   "paid": 10920.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "407",
+   "date": "2026-06-18",
+   "customerRaw": "Raju Bhai ",
+   "locationRaw": "Amatur Fashion",
+   "styleRaw": "Pant Long",
+   "qty": 117,
+   "unitPrice": 75.0,
+   "amount": 8775.0,
+   "paid": 8775.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "409",
+   "date": "2026-06-21",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Ladies tshirt",
+   "qty": 51,
+   "unitPrice": 60.0,
+   "amount": 3060.0,
+   "paid": 3060.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "409",
+   "date": "2026-06-21",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Tank Top",
+   "qty": 11,
+   "unitPrice": 40.0,
+   "amount": 440.0,
+   "paid": 440.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "409",
+   "date": "2026-06-21",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mens short Pant",
+   "qty": 15,
+   "unitPrice": 80.0,
+   "amount": 1200.0,
+   "paid": 1200.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "409",
+   "date": "2026-06-21",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mens tshirt Mota",
+   "qty": 7,
+   "unitPrice": 130.0,
+   "amount": 910.0,
+   "paid": 900.0,
+   "due": 10.0
+  },
+  {
+   "challanNo": "410",
+   "date": "2026-06-22",
+   "customerRaw": "Raju Bhai/Tipu Bhai",
+   "locationRaw": "01612654307  Tipu Bhai",
+   "styleRaw": "Keeper",
+   "qty": 760,
+   "unitPrice": 45.0,
+   "amount": 34200.0,
+   "paid": 34200.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "N/A",
+   "date": "2026-06-22",
+   "customerRaw": "Kanij/Alib        ",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Kids Mixed",
+   "qty": 9,
+   "unitPrice": 33.3,
+   "amount": 299.7,
+   "paid": 299.7,
+   "due": 0.0
+  },
+  {
+   "challanNo": "408",
+   "date": "2026-06-23",
+   "customerRaw": "Mostaque Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mens tshirt",
+   "qty": 767,
+   "unitPrice": 72.0,
+   "amount": 55224.0,
+   "paid": 55000.0,
+   "due": 224.0
+  },
+  {
+   "challanNo": "411",
+   "date": "2026-06-25",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Plazo, Ladies tshirt",
+   "qty": 46,
+   "unitPrice": 70.0,
+   "amount": 3220.0,
+   "paid": 3220.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "411",
+   "date": "2026-06-25",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Ladies Nighty 2",
+   "qty": 54,
+   "unitPrice": 60.0,
+   "amount": 3240.0,
+   "paid": 3240.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "411",
+   "date": "2026-06-25",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "LMens TankTop",
+   "qty": 150,
+   "unitPrice": 45.0,
+   "amount": 6750.0,
+   "paid": 6750.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "411",
+   "date": "2026-06-25",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Mens TShirt",
+   "qty": 431,
+   "unitPrice": 69.0,
+   "amount": 29739.0,
+   "paid": 29690.0,
+   "due": 49.0
+  },
+  {
+   "challanNo": "412",
+   "date": "2026-06-27",
+   "customerRaw": "Mostaque Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mens tshirt Long sleve",
+   "qty": 368,
+   "unitPrice": 68.0,
+   "amount": 25024.0,
+   "paid": 25024.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "412",
+   "date": "2026-06-27",
+   "customerRaw": "Mostaque Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Swipe Shirt Capsul/Twusu Buyer",
+   "qty": 154,
+   "unitPrice": 110.0,
+   "amount": 16940.0,
+   "paid": 16476.0,
+   "due": 464.0
+  },
+  {
+   "challanNo": "413",
+   "date": "2026-06-29",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Ladies tshirt",
+   "qty": 129,
+   "unitPrice": 70.0,
+   "amount": 9030.0,
+   "paid": 9030.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "413",
+   "date": "2026-06-29",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Plazo",
+   "qty": 161,
+   "unitPrice": 70.0,
+   "amount": 11270.0,
+   "paid": 11270.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "413",
+   "date": "2026-06-29",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Jacamo",
+   "qty": 224,
+   "unitPrice": 69.0,
+   "amount": 15456.0,
+   "paid": 15440.0,
+   "due": 16.0
+  },
+  {
+   "challanNo": "413",
+   "date": "2026-06-29",
+   "customerRaw": "Pintu Bhai",
+   "locationRaw": "Mouchak",
+   "styleRaw": "Nighty 2",
+   "qty": 21,
+   "unitPrice": 60.0,
+   "amount": 1260.0,
+   "paid": 1260.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "415",
+   "date": "2026-06-29",
+   "customerRaw": "Manik Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mens T-Shirt",
+   "qty": 1112,
+   "unitPrice": 95.0,
+   "amount": 105640.0,
+   "paid": 105500.0,
+   "due": 140.0
+  },
+  {
+   "challanNo": "414",
+   "date": "2026-06-29",
+   "customerRaw": "Polash Bhai",
+   "locationRaw": "Salna",
+   "styleRaw": "Boxer",
+   "qty": 13,
+   "unitPrice": 40.0,
+   "amount": 520.0,
+   "paid": 500.0,
+   "due": 20.0
+  },
+  {
+   "challanNo": "416",
+   "date": "2026-06-30",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Ladies tshirt Rib",
+   "qty": 108,
+   "unitPrice": 60.0,
+   "amount": 6480.0,
+   "paid": 6480.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "416",
+   "date": "2026-06-30",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Ladies tshirt Print",
+   "qty": 13,
+   "unitPrice": 70.0,
+   "amount": 910.0,
+   "paid": 900.0,
+   "due": 10.0
+  },
+  {
+   "challanNo": "416",
+   "date": "2026-06-30",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Nighty & Mens tshirt Drop Shoulder",
+   "qty": 20,
+   "unitPrice": 110.0,
+   "amount": 2200.0,
+   "paid": 2200.0,
+   "due": 0.0
+  },
+  {
+   "challanNo": "416",
+   "date": "2026-06-30",
+   "customerRaw": "Shafique Bhai",
+   "locationRaw": "Uttara",
+   "styleRaw": "Mens Short Pant",
+   "qty": 6,
+   "unitPrice": 70.0,
+   "amount": 420.0,
+   "paid": 420.0,
+   "due": 0.0
+  }
+ ],
+ "receipts": [
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Ladies T-Shirt",
+   "qty": 140,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Ladies T-Shirt Long Sleve Solid",
+   "qty": 594,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Ladies T-Shirt HighNeck",
+   "qty": 100,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Ladies T-Shirt Stripe",
+   "qty": 14,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Mens Swipe Shirt",
+   "qty": 84,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Girls Hoodies",
+   "qty": 50,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Boys T-Shirt",
+   "qty": 19,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Girls T-Shirt",
+   "qty": 65,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Boys Girls Keeper",
+   "qty": 330,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Ladies Pregnant Dress",
+   "qty": 67,
+   "opening": false
+  },
+  {
+   "challanNo": "25589",
+   "date": "2026-06-09",
+   "styleRaw": "Mixed Item All Style",
+   "qty": 661,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Boxer",
+   "qty": 300,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Ladies T-Shirt AOP",
+   "qty": 11,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Ladies T-Shirt Solid",
+   "qty": 25,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Ladies T-Shirt Design",
+   "qty": 47,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Ladies T-Shirt Long Sleve Solid",
+   "qty": 35,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Ladies Pant",
+   "qty": 54,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Mens T-shirt Drop Soldier",
+   "qty": 121,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Boys Trouser",
+   "qty": 95,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Ladies Hoodies",
+   "qty": 96,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Ladies Swipe Shirt",
+   "qty": 4,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Ladies Skirt",
+   "qty": 6,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Mens Short Pant Thin",
+   "qty": 22,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Mens T-Shirt Solid",
+   "qty": 30,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Mens Polo Shirt",
+   "qty": 52,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Mens Swipe Shirt",
+   "qty": 150,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Ladies Swipe Shirt",
+   "qty": 16,
+   "opening": false
+  },
+  {
+   "challanNo": "25590",
+   "date": "2026-06-10",
+   "styleRaw": "Mixed Item All Style",
+   "qty": 472,
+   "opening": false
+  },
+  {
+   "challanNo": "25591",
+   "date": "2026-06-13",
+   "styleRaw": "Boys Hoodies",
+   "qty": 111,
+   "opening": false
+  },
+  {
+   "challanNo": "25591",
+   "date": "2026-06-13",
+   "styleRaw": "Boys Trouser",
+   "qty": 182,
+   "opening": false
+  },
+  {
+   "challanNo": "25591",
+   "date": "2026-06-13",
+   "styleRaw": "Girls Swipe Shirt",
+   "qty": 193,
+   "opening": false
+  },
+  {
+   "challanNo": "25591",
+   "date": "2026-06-13",
+   "styleRaw": "Boys Swipe Shirt",
+   "qty": 6,
+   "opening": false
+  },
+  {
+   "challanNo": "25591",
+   "date": "2026-06-13",
+   "styleRaw": "Ladies T-Shirt",
+   "qty": 6,
+   "opening": false
+  },
+  {
+   "challanNo": "25591",
+   "date": "2026-06-13",
+   "styleRaw": "Ladies Plazo",
+   "qty": 64,
+   "opening": false
+  },
+  {
+   "challanNo": "25591",
+   "date": "2026-06-13",
+   "styleRaw": "Mixed Item All Style",
+   "qty": 575,
+   "opening": false
+  },
+  {
+   "challanNo": "25592",
+   "date": "2026-06-18",
+   "styleRaw": "Boys Girls Keeper",
+   "qty": 453,
+   "opening": false
+  },
+  {
+   "challanNo": "25592",
+   "date": "2026-06-18",
+   "styleRaw": "Boys Hoodies",
+   "qty": 180,
+   "opening": false
+  },
+  {
+   "challanNo": "25592",
+   "date": "2026-06-18",
+   "styleRaw": "Ladies Swipe Shirt",
+   "qty": 7,
+   "opening": false
+  },
+  {
+   "challanNo": "25592",
+   "date": "2026-06-18",
+   "styleRaw": "Ladies T-Shirt HighNeck",
+   "qty": 160,
+   "opening": false
+  },
+  {
+   "challanNo": "25592",
+   "date": "2026-06-18",
+   "styleRaw": "Kids Swipe Shirt",
+   "qty": 80,
+   "opening": false
+  },
+  {
+   "challanNo": "25592",
+   "date": "2026-06-18",
+   "styleRaw": "Kids Trouser",
+   "qty": 338,
+   "opening": false
+  },
+  {
+   "challanNo": "25592",
+   "date": "2026-06-18",
+   "styleRaw": "Mixed Item All Style",
+   "qty": 742,
+   "opening": false
+  },
+  {
+   "challanNo": "25592",
+   "date": "2026-06-18",
+   "styleRaw": "Pre Stock Mixed Item",
+   "qty": 52512,
+   "opening": true
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Ladies T-Shirt Solid",
+   "qty": 71,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Ladies T-Shirt Long Sleve Solid",
+   "qty": 1054,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Ladies T-Shirt AOP",
+   "qty": 135,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Ladies Long Nighty 1",
+   "qty": 23,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Ladies TankTop",
+   "qty": 151,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Ladies Swipe Shirt",
+   "qty": 70,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Mens T-Shirt Solid",
+   "qty": 519,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Boxer",
+   "qty": 761,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Girls T-Shirt",
+   "qty": 81,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Girls Swipe Shirt",
+   "qty": 252,
+   "opening": false
+  },
+  {
+   "challanNo": "25593",
+   "date": "2026-06-20",
+   "styleRaw": "Mixed Item All Style",
+   "qty": 797,
+   "opening": false
+  },
+  {
+   "challanNo": "25594",
+   "date": "2026-06-25",
+   "styleRaw": "Boys Hoodies",
+   "qty": 52,
+   "opening": false
+  },
+  {
+   "challanNo": "25594",
+   "date": "2026-06-25",
+   "styleRaw": "Boys Trouser",
+   "qty": 137,
+   "opening": false
+  },
+  {
+   "challanNo": "25594",
+   "date": "2026-06-25",
+   "styleRaw": "Boys Girls Keeper",
+   "qty": 1635,
+   "opening": false
+  },
+  {
+   "challanNo": "25594",
+   "date": "2026-06-25",
+   "styleRaw": "Girls T-Shirt",
+   "qty": 238,
+   "opening": false
+  },
+  {
+   "challanNo": "25594",
+   "date": "2026-06-25",
+   "styleRaw": "Mixed Item All Style",
+   "qty": 438,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Mens T-shirt Jacamo",
+   "qty": 228,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Ladies T-Shirt Long Sleve Solid",
+   "qty": 171,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Ladies T-Shirt",
+   "qty": 410,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Ladies Plazo",
+   "qty": 30,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Ladies Long Nighty 2",
+   "qty": 20,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Ladies T-Shirt AOP",
+   "qty": 44,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Ladies Top Bottom Set",
+   "qty": 272,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Boys Trouser",
+   "qty": 25,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Boys Hoodies",
+   "qty": 69,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Mens Swipe Shirt",
+   "qty": 127,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Mens Hoodies",
+   "qty": 120,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Ladies Swipe Shirt",
+   "qty": 48,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Ladies Trouser",
+   "qty": 10,
+   "opening": false
+  },
+  {
+   "challanNo": "25595",
+   "date": "2026-06-27",
+   "styleRaw": "Mixed Item All Style",
+   "qty": 603,
+   "opening": false
+  },
+  {
+   "challanNo": "25596",
+   "date": "2026-06-30",
+   "styleRaw": "Kids T-Shirt",
+   "qty": 134,
+   "opening": false
+  },
+  {
+   "challanNo": "25596",
+   "date": "2026-06-30",
+   "styleRaw": "Kids Swipe Shirt",
+   "qty": 68,
+   "opening": false
+  },
+  {
+   "challanNo": "25596",
+   "date": "2026-06-30",
+   "styleRaw": "Ladies T-Shirt HighNeck",
+   "qty": 785,
+   "opening": false
+  },
+  {
+   "challanNo": "25596",
+   "date": "2026-06-30",
+   "styleRaw": "Mixed Item All Style",
+   "qty": 84,
+   "opening": false
+  },
+  {
+   "challanNo": "25596",
+   "date": "2026-06-30",
+   "styleRaw": "Boys Hoodies",
+   "qty": 38,
+   "opening": false
+  },
+  {
+   "challanNo": "25596",
+   "date": "2026-06-30",
+   "styleRaw": "Mens Hoodies",
+   "qty": 53,
+   "opening": false
+  },
+  {
+   "challanNo": "25596",
+   "date": "2026-06-30",
+   "styleRaw": "Ladies T-Shirt Design",
+   "qty": 255,
+   "opening": false
+  },
+  {
+   "challanNo": "25596",
+   "date": "2026-06-30",
+   "styleRaw": "Mixed Item All Style",
+   "qty": 633,
+   "opening": false
+  },
+  {
+   "challanNo": "25596",
+   "date": "2026-06-30",
+   "styleRaw": "Total",
+   "qty": 17398,
+   "opening": false
+  }
+ ],
+ "expenseCategoryTotals": {
+  "Daily Expenditure": 1510.0,
+  "Suppliers & Others": 23855.0,
+  "Office Rent & Others": 31500.0,
+  "Salary & Honorarium": 46900.0,
+  "Bonus & Others": 0.0
+ },
+ "treasury": {
+  "capitalInvestment": 241420.0,
+  "depositsToAlib": 852500.0
+ },
+ "targets": {
+  "qty": 11929,
+  "invoice": 853663.48,
+  "collected": 852159.48,
+  "due": 1504.0,
+  "expenseTotal": 103765.0,
+  "receivedTotal": 87308,
+  "netStockXLS": 64537,
+  "grossProfitXLS": 374999.482
+ }
+}
