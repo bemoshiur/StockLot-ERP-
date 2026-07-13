@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "StockLot ERP",
   description: "StockLot wholesale operations — sales, inventory, dues, and profit.",
+  appleWebApp: { capable: true, title: "StockLot", statusBarStyle: "default" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#006FEE",
 };
 
 export default function RootLayout({

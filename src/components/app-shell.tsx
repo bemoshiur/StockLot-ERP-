@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Menu, LogOut, Boxes } from 'lucide-react'
 import { Nav } from '@/components/nav'
+import { SearchBox } from '@/components/search-box'
 import { logout } from '@/app/(app)/actions'
 import { ROLE_LABELS, type Role } from '@/lib/enums'
 
@@ -95,8 +96,9 @@ export function AppShell({
             <Menu className="h-5 w-5" />
           </button>
           <span className="text-sm font-semibold text-zinc-900 md:hidden">StockLot ERP</span>
-          <div className="ml-auto flex items-center gap-2">
-            <span className="hidden text-sm text-zinc-400 sm:block">{user.name}</span>
+          <div className="ml-auto flex items-center gap-3">
+            <SearchBox />
+            <span className="hidden text-sm text-zinc-400 lg:block">{user.name}</span>
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-50 text-xs font-semibold text-primary">
               {user.name.trim().slice(0, 1).toUpperCase()}
             </div>

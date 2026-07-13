@@ -85,6 +85,31 @@ export async function toggleStyleActive(id: string, active: boolean) {
   revalidatePath('/styles')
 }
 
+export async function bulkSetStyleActive(ids: string[], active: boolean): Promise<{ ok: boolean; error?: string }> {
+  const user = await requireCan('styles.write')
+  const clean = [...new Set(ids)].filter((id) => typeof id === 'string' && id.length > 0)
+  if (clean.length === 0) return { ok: false, error: 'No styles selected' }
+
+  const before = await db.productStyle.findMany({ where: { id: { in: clean } }, select: { id: true, active: true } })
+  const changing = before.filter((s) => s.active !== active).map((s) => s.id)
+  if (changing.length === 0) return { ok: true }
+
+  await db.productStyle.updateMany({ where: { id: { in: changing } }, data: { active, updatedById: user.id } })
+  await Promise.all(
+    changing.map((id) =>
+      writeAudit({
+        userId: user.id,
+        entity: 'ProductStyle',
+        entityId: id,
+        action: 'UPDATE',
+        changes: [{ field: 'active', oldValue: String(!active), newValue: String(active) }],
+      }),
+    ),
+  )
+  revalidatePath('/styles')
+  return { ok: true }
+}
+
 export async function addAlias(styleId: string, formData: FormData) {
   await requireCan('styles.write')
   const aliasText = String(formData.get('aliasText') ?? '').trim()
