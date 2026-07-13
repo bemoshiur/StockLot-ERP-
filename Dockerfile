@@ -23,13 +23,14 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 FROM base AS build
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# Placeholder values so `next build` can construct the Prisma client and Auth
-# without a live database. No real secrets are baked into the image.
-ENV NEXT_TELEMETRY_DISABLED=1 \
-    DATABASE_URL="postgresql://build:build@localhost:5432/build" \
+ENV NEXT_TELEMETRY_DISABLED=1
+# Placeholder values, scoped to this RUN only (never persisted as image layers),
+# so `next build` can construct the Prisma client and Auth without a live
+# database. No real secrets are baked into the image.
+RUN DATABASE_URL="postgresql://build:build@localhost:5432/build" \
     DIRECT_URL="postgresql://build:build@localhost:5432/build" \
-    AUTH_SECRET="build-time-placeholder-secret"
-RUN pnpm build
+    AUTH_SECRET="build-time-placeholder" \
+    pnpm build
 
 # --- runner: runtime image ---------------------------------------------------
 FROM base AS runner
