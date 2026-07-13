@@ -48,3 +48,6 @@ next-env.d.ts
 # playwright / screenshots
 /.playwright-mcp/
 /dashboard-owner.png
+
+# keep the env template
+!.env.example

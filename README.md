@@ -13,7 +13,7 @@ Upcoming phases: Inventory → Sales & Receivables → Expenses + Treasury/Partn
 ## Tech stack
 
 - **Next.js 16** (App Router, TypeScript) — one full-stack codebase
-- **Prisma** ORM — **SQLite in development**, **PostgreSQL** in production (portable schema)
+- **Prisma** ORM — **PostgreSQL** (Neon)
 - **Auth.js (NextAuth v5)** — credentials + JWT sessions, role in the token
 - **Tailwind CSS** UI, mobile-first
 - **Vitest** unit tests
@@ -21,13 +21,16 @@ Upcoming phases: Inventory → Sales & Receivables → Expenses + Treasury/Partn
 ## Getting started
 
 ```bash
+cp .env.example .env             # then fill in DATABASE_URL, DIRECT_URL, AUTH_SECRET
 pnpm install                     # install dependencies
-pnpm prisma migrate dev          # create the SQLite dev database + apply migrations
+pnpm prisma migrate deploy       # apply migrations to the database
 pnpm db:seed                     # seed the owner login + reference master data
 pnpm dev                         # run at http://localhost:3000
 ```
 
 **Default login:** `owner@stocklot.local` / `changeme123` — change this after first sign-in (Users → edit → Reset password).
+
+To load the June'26 workbook and print an ERP-vs-XLS reconciliation: `pnpm import:june26` (requires `reference/june26-import.json`).
 
 ## Roles
 
@@ -43,13 +46,13 @@ pnpm db:seed       # (re)seed reference data — idempotent
 pnpm prisma studio # browse the database
 ```
 
-## Switching to PostgreSQL (production)
+## Database & deployment
 
-1. In `prisma/schema.prisma`, set `datasource db { provider = "postgresql" }`.
-2. Set `DATABASE_URL` to your Postgres connection string.
-3. Run `pnpm prisma migrate deploy`.
+The app runs on **PostgreSQL** (Neon). The datasource uses two URLs: `DATABASE_URL` (Neon pooled connection, used by the app) and `DIRECT_URL` (Neon direct connection, used by Prisma migrations).
 
-The schema is written to be portable: enums are modeled as validated string columns (see `src/lib/enums.ts`), and money uses `Decimal`.
+- Apply schema to a new database: `pnpm prisma migrate deploy`
+- Enums are modeled as validated string columns (see `src/lib/enums.ts`); money uses `Decimal`.
+- Deploy the Next.js app to any Node host (e.g. Vercel). Set `DATABASE_URL`, `DIRECT_URL`, and `AUTH_SECRET` as environment variables; run `pnpm prisma migrate deploy` on release.
 
 ## Project layout
 
